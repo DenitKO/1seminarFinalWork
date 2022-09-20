@@ -1,35 +1,67 @@
-﻿string FillArray (string[] text, int j)
+﻿void FillArray(string[] text)
 {
-    for (int i = 0; i < j; i++)
+    for (int i = 0; i < text.Length; i++)
     {
-        text[j] = Console.ReadLine();
+        System.Console.Write($"{i + 1}: ");
+        text[i] = Console.ReadLine();
     }
 }
 
-string[] CutArrayString (string[] text, out string[] array)
+int LengthOfArrey(string[] text)
+{
+    string[] array;
+    int j = 0;
+    for (int i = 0; i < text.Length; i++)
+    {
+        if (text[i].Length <= 3)
+        {
+            j++;
+        }
+    }
+    return j;
+}
+
+void CutArrayString(string[] text, string[] array)
 {
     int j = 0;
     for (int i = 0; i < text.Length; i++)
     {
         if (text[i].Length <= 3)
-            text[i] = array[j];
+        {
+            array[j] = text[i];
+            j++;
+        }
     }
 }
 
-void PrintStringArray (string[] array)
+void PrintStringArray(string[] array)
 {
+    if (array.Length == 0)
+        Console.WriteLine("Строк с длинной меньше 4 символов не найдено");
+    else Console.WriteLine("Строки с длинной меньше 4:");
     for (int i = 0; i < array.Length; i++)
     {
-        Console.WriteLine(array[i]);
+        Console.WriteLine($"{i + 1}: {array[i]}");
     }
 }
-int count = 0;
-string[] mytext;
-Console.WriteLine("Введите количество вводимых строк");
-int count = Convert.ToInt32(Console.ReadLine());
-FillArray(mytext, count);
-string[] outext;
-CutArrayString(mytext, outext);
-PrintStringArray(outext);
 
+Console.Write("Введите количество вводимых строк: ");
 
+string input = Console.ReadLine();
+int count;
+bool result = int.TryParse(input, out count);
+if (result)
+{
+    if (count < 1)
+        Console.WriteLine("Ошибка, число не натуральное");
+    else
+    {
+        string[] mytext = new string[count];
+        FillArray(mytext);
+        int n = LengthOfArrey(mytext);
+        string[] outext = new string[n];
+        CutArrayString(mytext, outext);
+        PrintStringArray(outext);
+    }
+}
+else Console.WriteLine("Что то пошло не так, попробуйте еще раз");
